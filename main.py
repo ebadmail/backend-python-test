@@ -8,7 +8,7 @@ from docopt import docopt
 import subprocess
 import os
 
-from alayatodo import app
+from alayatodo import app,db
 
 
 def _run_sql(filename):
@@ -26,8 +26,8 @@ def _run_sql(filename):
 if __name__ == '__main__':
     args = docopt(__doc__)
     if args['initdb']:
-        _run_sql('resources/database.sql')
-        _run_sql('resources/fixtures.sql')
+         db.create_all()
+         execfile('resources/fixtures.py')
         print "AlayaTodo: Database initialized."
     else:
         app.run(use_reloader=True)
