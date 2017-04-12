@@ -4,7 +4,8 @@ from flask import (
     redirect,
     render_template,
     request,
-    session
+    session,
+    jsonify
     )
 
 
@@ -35,6 +36,17 @@ def login_POST():
 
     return redirect('/login')
 
+@app.route('/todo/<id>/json', methods=['GET'])
+@app.route('/todo/<id>/json/', methods=['GET'])
+def todo_json(id):
+    if not session.get('logged_in'):
+        return redirect('/login')
+    cur = g.db.execute("SELECT * FROM todos WHERE id ='%s'" % id)
+    myTodo = cur.fetchone()
+    if myTodo:
+        return jsonify(dict(myTodo))
+    else:
+        return redirect('/todo')
 
 @app.route('/logout')
 def logout():
