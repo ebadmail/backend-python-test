@@ -1,0 +1,1 @@
+todosPerPage = 10

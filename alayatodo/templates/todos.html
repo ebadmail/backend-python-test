@@ -41,6 +41,18 @@
             </form>
         </tr>
     </table>
+    <div></div>
+    {% if page > 0 %}
+    {% set previousPage = page %}
+    <form method="get" action="{{ url_for('todos', page=previousPage) }}">
+         <button type="submit" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-chevron-left glyphicon-white"></span></button>
+    </form>
+    {% endif %}
+    Page number: {{page}}
+    {% set nextPage = page %}
+    <form method="get" action="{{ url_for('todos', page=nextPage) }}">
+       <button type="submit" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-chevron-right glyphicon-white"></span></button>
+    </form>    
     <div>{{ result }}</div>
 </div>
 
