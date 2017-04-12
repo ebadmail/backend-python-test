@@ -65,9 +65,21 @@ def todos():
 def todos_POST():
     if not session.get('logged_in'):
         return redirect('/login')
-    g.db.execute(
+    if request.form.get('description'):
+        g.db.execute(
         "INSERT INTO todos (user_id, description) VALUES ('%s', '%s')"
         % (session['user']['id'], request.form.get('description', ''))
+        )
+        g.db.commit()
+    return redirect('/todo')
+
+
+@app.route('/todo/<id>', methods=['POST'])
+def todos_complete(id):
+    if not session.get('logged_in'):
+        return redirect('/login')
+    g.db.execute(
+        "UPDATE todos SET is_complete = 1 WHERE id = '%s'" % id
     )
     g.db.commit()
     return redirect('/todo')
